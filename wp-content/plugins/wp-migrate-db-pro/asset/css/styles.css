@@ -41,7 +41,8 @@
   vertical-align: baseline;
   margin-top: 0;
 }
-.wpmdb input[type=text] {
+.wpmdb input[type=text],
+.wpmdb input[type=password] {
   padding: 5px;
 }
 .wpmdb .option-section {
@@ -241,6 +242,17 @@
   line-height: 21px;
   padding: 10px;
 }
+.wpmdb .basic-access-auth-wrapper {
+  display: none;
+  margin-bottom: 5px;
+}
+.wpmdb .auth-username, .wpmdb .auth-password {
+  width: 206px;
+  margin-top: 3px;
+}
+.wpmdb .auth-password {
+  width: 207px;
+}
 .wpmdb .connection-info-wrapper {
   display: none;
   width: 670px;
@@ -384,6 +396,7 @@
   display: inline-block;
   position: relative;
   top: 4px;
+  margin-top: -4px;
   cursor: pointer;
   margin-left: 2px;
 }
@@ -412,11 +425,11 @@
 }
 .wpmdb .ssl-verify-message {
   left: 182px;
-  top: -7px;
+  top: -10px;
 }
 .wpmdb .replace-guids-info {
   left: 140px;
-  top: -7px;
+  top: -10px;
 }
 .wpmdb .helper-message:after {
   content: '';
@@ -538,6 +551,65 @@
 }
 .wpmdb .settings-tab {
   display: none;
+}
+.wpmdb .settings-tab .slider {
+  max-width: 416px;
+}
+.wpmdb .settings-tab .slider-label {
+  display: block;
+  margin-bottom: 10px;
+  float: left;
+  width: 50%;
+}
+.wpmdb .settings-tab .slider-label-wrapper {
+  max-width: 416px;
+  width: 100%;
+  position: relative;
+}
+.wpmdb .settings-tab .amount {
+  width: 50%;
+  text-align: right;
+  display: block;
+  text-align: right;
+  float: left;
+}
+.wpmdb .settings-tab .slider-message {
+  top: -11px;
+  left: 164px;
+}
+.wpmdb .settings-tab .slider-spinner {
+  position: absolute;
+  right: -35px;
+  bottom: -13px;
+}
+.wpmdb .settings-tab .slider-success-msg {
+  display: none;
+  right: -53px;
+  bottom: -13px;
+  position: absolute;
+  font-weight: bold;
+}
+.wpmdb .settings-tab .ui-slider {
+  border: 1px solid #dfdfdf;
+  height: 10px;
+  border-radius: 2px;
+  position: relative;
+}
+.wpmdb .settings-tab .ui-slider-handle {
+  width: 7px;
+  height: 20px;
+  background-color: #aaa;
+  display: block;
+  position: absolute;
+  top: -5px;
+  outline: none;
+}
+.wpmdb .settings-tab .ui-slider-handle:active {
+  background-color: #999;
+}
+.wpmdb .settings-tab .ui-slider-range {
+  background-color: #eee;
+  height: 100%;
 }
 .wpmdb .settings-tab .option-section li label {
   font-size: 12px;
@@ -847,7 +919,6 @@
   border: 1px solid #ccc;
   border-radius: 3px;
   background-color: #fff;
-  colour: #333;
   font-family: "Courier New",Courier,monospace;
   font-size: 12px;
   display: inline-block;

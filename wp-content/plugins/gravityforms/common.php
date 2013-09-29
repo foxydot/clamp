@@ -1,7 +1,7 @@
 <?php
 class GFCommon{
 
-    public static $version = "1.7.7";
+    public static $version = "1.7.9";
     public static $tab_index = 1;
     public static $errors = array();
 
@@ -1456,13 +1456,13 @@ class GFCommon{
 
         $to_field = "";
         if(rgar($notification, "toType") == "field"){
-            if(rgempty("toField", $notification))
+        	$to_field = rgar($notification, "toField");
+            if(rgempty("toField", $notification)){
                 $to_field = rgar($notification, "to");
-            else if(rgempty("to", $notification))
-                $to_field = rgar($notification, "toField");
+			}
         }
 
-        $email_to = rgar($notification, "to");
+		$email_to = rgar($notification, "to");
         //do routing logic if "to" field doesn't have a value (to support legacy notifications what will run routing prior to this method
         if(empty($email_to) && rgar($notification, "toType") == "routing"){
             $email_to = array();
@@ -3617,7 +3617,7 @@ class GFCommon{
                 }
                 $checked = rgpost("gform_payment_method") == "creditcard" || rgempty("gform_payment_method") ? "checked='checked'" : "";
                 $card_radio_button = empty($payment_options) ? "" : "<input type='radio' name='gform_payment_method' id='gform_payment_method_creditcard' value='creditcard' onclick='gformToggleCreditCard();'   {$checked}/>";
-                $card_icons = "{$payment_options}<div class='gform_card_icon_container gform_card_icon_{$card_style}'>{$card_radio_button}{$card_icons}</div><div class='gform_card_fields_container'>";
+                $card_icons = "{$payment_options}<div class='gform_card_icon_container gform_card_icon_{$card_style}'>{$card_radio_button}{$card_icons}</div>";
 
 
 
@@ -3656,7 +3656,7 @@ class GFCommon{
                 $tabindex = self::get_tabindex();
                 $card_name_field = sprintf("<span class='ginput_full{$class_suffix}' id='{$field_id}_5_container'><input type='text' name='input_%d.5' id='%s_5' value='%s' {$tabindex} %s /><label for='%s_5' id='{$field_id}_5_label'>" . apply_filters("gform_card_name_{$form_id}", apply_filters("gform_card_name",__("Cardholder Name", "gravityforms"), $form_id), $form_id) . "</label></span>", $id, $field_id, $card_name, $disabled_text, $field_id);
 
-                return "<div class='ginput_complex{$class_suffix} ginput_container' id='{$field_id}'>" . $card_field . $expiration_field . $security_field . $card_name_field . " </div></div>";
+                return "<div class='ginput_complex{$class_suffix} ginput_container' id='{$field_id}'>" . $card_field . $expiration_field . $security_field . $card_name_field . " </div>";
 
             break;
 

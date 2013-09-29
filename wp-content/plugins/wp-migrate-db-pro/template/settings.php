@@ -7,12 +7,12 @@
 		$verify_ssl_checked = ( $this->settings['verify_ssl'] ? ' checked="checked"' : '' );
 
 		$licence_email = ( isset( $this->settings['licence_email'] ) && ! empty( $this->settings['licence_email'] ) ? 'Registered To: ' . $this->settings['licence_email'] : '' );
-		$licence = ( isset( $this->settings['licence'] ) && ! empty( $this->settings['licence'] ) ? $this->settings['licence'] : '' );
+		$licence = $this->get_licence_key();
 	?>
 
 	<form method="post" id="settings-form" action="#settings">
 
-		<div class="option-section allow-remote-requests-wrap">
+		<div class="option-section allow-remote-requests-wrap">		
 			<ul class="option-group">
 				<li>
 					<label for="allow_pull">
@@ -43,14 +43,34 @@
 			<div class="reset-button-wrap clearfix"><a class="button reset-api-key js-action-link">Reset API Key</a></div>
 		</div>
 
+		<div class="option-section slider-outer-wrapper">
+			<div class="clearfix slider-label-wrapper">
+				<div class="slider-label">Maximum Request Size 
+					<a class="general-helper slider-helper js-action-link" href="#"></a>
+					<div class="slider-message helper-message">
+						We've detected that your server supports requests up to <?php echo size_format( $this->get_bottleneck( 'max' ) ); ?>, but it's possible that your server has limitations that we could not detect. To be on the safe side, we set the default to 1&nbsp;MB, but you can try throttling it up to get better performance. If you're getting a 413 error or having trouble with time outs, try throttling this setting down.
+					</div>
+				</div>
+				<div class="amount"></div>
+				<span class="slider-success-msg">Saved</span>
+			</div>
+			<div class="slider"></div>
+		</div>
+
 	</form>
 
 	<form class="licence-form option-section clearfix licence-wrap" method="post" action="#settings">
 		<h3>Your License</h3>
+		<?php if ( $this->is_licence_constant() ) : ?>
+		<p>
+			<?php _e( 'The license key is currently defined in wp-config.php.', 'wp-migrate-db-pro' ); ?>
+		</p>
+		<?php else : ?>
 		<div class="licence-information"><?php echo $licence_email; ?></div>
 		<input type="text" class="licence-input" autocomplete="off" value="<?php echo esc_attr( $licence ); ?>" />
 		<button class="button register-licence" type="submit">Activate License</button>
 		<p class="licence-status"></p>
+		<?php endif; ?>
 	</form>
 
 </div> <!-- end .settings-tab -->

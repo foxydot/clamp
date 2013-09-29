@@ -28,7 +28,8 @@
 		margin-top: 0;
 	}
 
-	input[type=text] {
+	input[type=text],
+	input[type=password] {
 		padding: 5px;
 	}
 
@@ -297,6 +298,20 @@
 	    padding: 10px;
 	}
 
+	.basic-access-auth-wrapper {
+		display: none;
+		margin-bottom: 5px;
+	}
+
+	.auth-username, .auth-password {
+		width: 206px;
+		margin-top: 3px;
+	}
+
+	.auth-password {
+		width: 207px;
+	}
+
 	.connection-info-wrapper {
 		display: none;
 		width: 670px;
@@ -475,6 +490,7 @@
 		display: inline-block;
 		position: relative;
 		top: 4px;
+		margin-top: -4px;
 		cursor: pointer;
 		margin-left: 2px;
 	}
@@ -507,12 +523,12 @@
 
 	.ssl-verify-message {
 		left: 182px;
-		top: -7px;
+		top: -10px;
 	}
 
 	.replace-guids-info {
 		left: 140px;
-		top: -7px;
+		top: -10px;
 	}
 	
 	.helper-message:after {
@@ -667,6 +683,76 @@
 
 	.settings-tab{
 		display: none;
+
+		.slider {
+			max-width: 416px;
+		}
+
+		.slider-label {
+			display: block;
+			margin-bottom: 10px;
+			float: left;
+			width: 50%;
+		}
+
+		.slider-label-wrapper {
+			max-width: 416px;
+			width: 100%;
+			position: relative;
+		}
+
+		.amount {
+			width: 50%;
+			text-align: right;
+			display: block;
+			text-align: right;
+			float: left;
+		}
+
+		.slider-message {
+			top: -11px;
+			left: 164px;
+		}
+
+		.slider-spinner {
+			position: absolute;
+			right: -35px;
+			bottom: -13px;
+		}
+
+		.slider-success-msg {
+			display: none;
+			right: -53px;
+			bottom: -13px;
+			position: absolute;
+			font-weight: bold;
+		}
+
+		.ui-slider {
+			border: 1px solid #dfdfdf;
+			height: 10px;
+			border-radius: 2px;
+			position: relative;
+		}
+
+		.ui-slider-handle {
+			width: 7px;
+			height: 20px;
+			background-color: #aaa;
+			display: block;
+			position: absolute;
+			top: -5px;
+			outline: none;
+		}
+
+		.ui-slider-handle:active {
+			background-color: #999;
+		}
+
+		.ui-slider-range {
+			background-color: #eee;
+			height: 100%;
+		}
 
 		.option-section{
 
@@ -1024,7 +1110,6 @@
 		border: 1px solid #ccc;
 		border-radius: 3px;
 		background-color: #fff;
-		colour: #333;
 		font-family: "Courier New",Courier,monospace;
 		font-size: 12px;
 		display: inline-block;

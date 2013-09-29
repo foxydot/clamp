@@ -17,6 +17,7 @@ $videos = array(
 			you\'ve been using for development to a staging environment.'
 	)
 );
+$licence = $this->get_licence_key();
 ?>
 
 <div class="help-tab content-tab">
@@ -24,7 +25,7 @@ $videos = array(
 	<div class="support">
 		<h3>Email Support</h3>
 		<div class="support-content">
-			<?php if( isset( $this->settings['licence'] ) && ! empty( $this->settings['licence'] ) ) : ?>
+			<?php if( ! empty( $licence ) ) : ?>
 				<p>Fetching licence details, please wait...</p>
 			<?php else : ?>
 				<p>We couldn't find your licence information. Please switch to the settings tab and enter your licence.</p>

@@ -74,6 +74,10 @@ $is_default_profile = isset( $loaded_profile['default_profile'] );
 			<div class="connection-info-wrapper clearfix">
 				<textarea class="pull-push-connection-info" name="connection_info" placeholder="Connection Info - Site URL &amp; Secret Key"><?php echo ( isset( $loaded_profile['connection_info'] ) ? $loaded_profile['connection_info'] : '' ); ?></textarea>
 				<br />
+				<div class="basic-access-auth-wrapper clearfix">
+					<input type="text" name="auth_username" class="auth-username auth-credentials" placeholder="Username" autocomplete="off" />
+					<input type="password" name="auth_password" class="auth-password auth-credentials" placeholder="Password" autocomplete="off" />
+				</div>
 				<input class="button connect-button" type="submit" value="Connect" name="Connect" autocomplete="off" />
 			</div>
 
@@ -187,7 +191,7 @@ $is_default_profile = isset( $loaded_profile['default_profile'] );
 			</div>
 
 			<div class="option-section">
-				<?php $tables = $this->get_tables(); ?>
+				<?php $tables = $this->get_table_sizes(); ?>
 				<div class="header-expand-collapse clearfix">
 					<?php
 						if( isset( $loaded_profile['table_migrate_option'] ) && $loaded_profile['table_migrate_option'] == 'migrate_select' ){
@@ -220,12 +224,13 @@ $is_default_profile = isset( $loaded_profile['default_profile'] );
 
 					<div class="select-tables-wrap">
 						<select multiple="multiple" name="select_tables[]" id="select-tables" autocomplete="off">
-						<?php foreach( $tables as $table ) :
+						<?php foreach( $tables as $table => $size ) :
+							$size = (int) $size * 1024;
 							if( ! empty( $loaded_profile['select_tables'] ) && in_array( $table, $loaded_profile['select_tables'] ) ){
-								printf( '<option value="%1$s" selected="selected">%1$s</option>', $table );
+								printf( '<option value="%1$s" selected="selected">%1$s (%2$s)</option>', $table, size_format( $size ) );
 							}
 							else{
-								printf( '<option value="%1$s">%1$s</option>', $table );
+								printf( '<option value="%1$s">%1$s (%2$s)</option>', $table, size_format( $size ) );
 							}
 						endforeach; ?>
 						</select>
@@ -279,7 +284,13 @@ $is_default_profile = isset( $loaded_profile['default_profile'] );
 						<li class="backup-options">
 							<label for="create-backup">
 							<input id="create-backup" type="checkbox" value="1" autocomplete="off" name="create_backup"<?php echo ( isset( $loaded_profile['create_backup'] ) ? ' checked="checked"' : '' ); ?> />
-							Backup the database that will be overwritten and save to the "uploads" folder
+							Backup the database that will be overwritten and save to: <span class="uploads-dir"><?php echo $this->get_short_uploads_dir(); ?></span>
+							</label>
+						</li>
+						<li class="keep-active-plugins">
+							<label for="keep-active-plugins">
+							<input id="keep-active-plugins" type="checkbox" value="1" autocomplete="off" name="keep_active_plugins"<?php echo ( isset( $loaded_profile['keep_active_plugins'] ) ? ' checked="checked"' : '' ); ?> />
+							Do not migrate the 'active_plugins' setting (i.e. which plugins are activated/deactivated)
 							</label>
 						</li>
 					</ul>
