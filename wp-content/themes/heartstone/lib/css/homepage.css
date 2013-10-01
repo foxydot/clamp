@@ -636,7 +636,7 @@ th.visible-print,td.visible-print{display:none !important}
 .arial{font-family:"Helvetica Neue",Arial,Helvetica,sans-serif}
 .button:hover,.button:visited,.button a,.button a:hover,.button a:visited{color:#fff;text-decoration:none}
 .clearfix{content:".";display:block;height:0;clear:both;visibility:hidden}
-body{background:#000}
+body{background:#000;background-image:url(../img/fire-flames.jpg);background-repeat:repeat-x;background-position:center bottom}
 main{background:#fff}main .entry-content{text-align:center}
 #loginform{width:50%;margin:0 auto}#loginform .login-remember{display:none}
 @media only screen and (max-width:767px){#loginform{width:90%;margin:0 auto}}
