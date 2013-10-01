@@ -5,3 +5,23 @@
 body {
   background: @black;
 }
+
+main {
+  background: @white;
+  .entry-content{
+    text-align: center;
+  }
+}
+
+#loginform{
+  width: 50%;
+  margin: 0 auto;
+  .login-remember{display:none;}
+}
+
+@media only screen and (max-width: 767px) {
+  #loginform{
+    width: 90%;
+    margin: 0 auto;
+  }
+}

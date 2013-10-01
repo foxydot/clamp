@@ -637,3 +637,6 @@ th.visible-print,td.visible-print{display:none !important}
 .button:hover,.button:visited,.button a,.button a:hover,.button a:visited{color:#fff;text-decoration:none}
 .clearfix{content:".";display:block;height:0;clear:both;visibility:hidden}
 body{background:#000}
+main{background:#fff}main .entry-content{text-align:center}
+#loginform{width:50%;margin:0 auto}#loginform .login-remember{display:none}
+@media only screen and (max-width:767px){#loginform{width:90%;margin:0 auto}}
