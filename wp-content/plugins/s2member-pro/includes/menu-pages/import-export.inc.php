@@ -6,9 +6,9 @@
 * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
 * (coded in the USA)
 *
-* This WordPress® plugin (s2Member Pro) is comprised of two parts:
+* This WordPress plugin (s2Member Pro) is comprised of two parts:
 *
-* o (1) Its PHP code is licensed under the GPL license, as is WordPress®.
+* o (1) Its PHP code is licensed under the GPL license, as is WordPress.
 * 	You should have received a copy of the GNU General Public License,
 * 	along with this software. In the main directory, see: /licensing/
 * 	If not, see: {@link http://www.gnu.org/licenses/}.
@@ -47,8 +47,11 @@ if (!class_exists ("c_ws_plugin__s2member_pro_menu_page_import_export"))
 					{
 						echo '<div class="wrap ws-menu-page">' . "\n";
 
-						echo '<div id="icon-plugins" class="icon32"><br /></div>' . "\n";
-						echo '<h2>s2Member® Pro (Import/Export Tools)</h2>' . "\n";
+						echo '<div class="ws-menu-page-toolbox">'."\n";
+						c_ws_plugin__s2member_menu_pages_tb::display ();
+						echo '</div>'."\n";
+
+						echo '<h2>Imports / Exports</h2>' . "\n";
 
 						echo '<table class="ws-menu-page-table">' . "\n";
 						echo '<tbody class="ws-menu-page-table-tbody">' . "\n";
@@ -61,9 +64,9 @@ if (!class_exists ("c_ws_plugin__s2member_pro_menu_page_import_export"))
 
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-pro-user-importation-section">' . "\n";
 								echo '<h3>User/Member Importation (upload file / or direct input)</h3>' . "\n";
-								echo '<p>Import files can be uploaded in CSV format, or you can copy/paste data into the form field provided. In either case, you MUST follow the examples given below. Please double-check your data before clicking the Import button. Make sure that all data fields are properly encapsulated by double-quotes, and separated by commas. You\'ll also need to make sure that all of your data fields are in the proper order, based on the examples given below. After importing Users/Members, you can inspect your work by going to: <code>WordPress® -› Users</code>.</p>' . "\n";
-								echo '<p><em><strong>*No Email Notification*</strong> This import routine works silently. Users/Members will NOT be contacted by s2Member; that is, unless you have another plugin installed that conflicts with s2Member\'s ability to perform the Import properly. You should always test one or two accounts before importing a large number of Users all at once. If you want Users/Members to be contacted, you can add them manually, by going to <code>WordPress® -› Users -› Add New</code>, and selecting one of the s2Member Roles from the drop-down menu.</em></p>' . "\n";
-								echo (version_compare(PHP_VERSION, "5.3", "<")) ? '<p><em><strong>*PHP v5.3+ recommended*</strong> In order for s2Member® to properly import CSV files containing escape sequences, PHP v5.3 or higher is required. While s2Member® may be able to parse import files in most cases, PHP v5.3 provides the best stability.</em></p>' . "\n" : '';
+								echo '<p>Import files can be uploaded in CSV format, or you can copy/paste data into the form field provided. In either case, you MUST follow the examples given below. Please double-check your data before clicking the Import button. Make sure that all data fields are properly encapsulated by double-quotes, and separated by commas. You\'ll also need to make sure that all of your data fields are in the proper order, based on the examples given below. After importing Users/Members, you can inspect your work by going to: <code>WordPress -› Users</code>.</p>' . "\n";
+								echo '<p><em><strong>*No Email Notification*</strong> This import routine works silently. Users/Members will NOT be contacted by s2Member; that is, unless you have another plugin installed that conflicts with s2Member\'s ability to perform the Import properly. You should always test one or two accounts before importing a large number of Users all at once. If you want Users/Members to be contacted, you can add them manually, by going to <code>WordPress -› Users -› Add New</code>, and selecting one of the s2Member Roles from the drop-down menu.</em></p>' . "\n";
+								echo (version_compare(PHP_VERSION, "5.3", "<")) ? '<p><em><strong>*PHP v5.3+ recommended*</strong> In order for s2Member to properly import CSV files containing escape sequences, PHP v5.3 or higher is required. While s2Member may be able to parse import files in most cases, PHP v5.3 provides the best stability.</em></p>' . "\n" : '';
 								echo '<p><em><strong class="ws-menu-page-hilite">*IMPORTANT NOTICE*</strong> s2Member\'s import format changed in s2Member Pro v130203+ (with respect to Custom Registration/Profile Fields only). If you are importing Custom Fields, please review <a href="http://www.s2member.com/kb/importing-updating-users/#custom-registration-profile-fields" target="_blank" rel="external nofollow x-link">this article</a> before you import new Users/Members or mass update any existing Users/Members. <strong>VERY important!</strong></em></p>' . "\n";
 
 								echo '<table class="form-table">' . "\n";
@@ -74,7 +77,7 @@ if (!class_exists ("c_ws_plugin__s2member_pro_menu_page_import_export"))
 								echo '<form method="post" enctype="multipart/form-data" name="ws_plugin__s2member_pro_import_users_form" id="ws-plugin--s2member-pro-import-users-form">' . "\n";
 								echo '<input type="hidden" name="ws_plugin__s2member_pro_import_users" id="ws-plugin--s2member-pro-import-users" value="' . esc_attr (wp_create_nonce ("ws-plugin--s2member-pro-import-users")) . '" />' . "\n";
 
-								echo '<input type="file" name="ws_plugin__s2member_pro_import_users_file" id="ws-plugin--s2member-pro-import-users-file" />&nbsp;&nbsp;&nbsp;(up to 1000 lines per file)&nbsp;&nbsp;&nbsp;<input type="submit" class="button-primary" value="Import Now" /><br /><br />' . "\n";
+								echo '<input type="file" name="ws_plugin__s2member_pro_import_users_file" id="ws-plugin--s2member-pro-import-users-file" />&nbsp;&nbsp;&nbsp;(up to 1000 lines per file)&nbsp;&nbsp;&nbsp;<input type="submit" value="Import Now" style="font-size:120%; font-weight:normal;" /><br /><br />' . "\n";
 								echo '<textarea name="ws_plugin__s2member_pro_import_users_direct_input" id="ws-plugin--s2member-pro-import-users-direct-input" rows="10" wrap="off" spellcheck="false" style="width:99%;">' . format_to_edit (trim (stripslashes ($_POST["ws_plugin__s2member_pro_import_users_direct_input"]))) . '</textarea><br />' . "\n";
 
 								echo 'One User/Member per line please. Here is a quick example:<br />' . "\n";
@@ -120,9 +123,9 @@ if (!class_exists ("c_ws_plugin__s2member_pro_menu_page_import_export"))
 
 								echo '<div class="ws-menu-page-section ws-plugin--s2member-pro-user-importation-section">' . "\n";
 								echo '<h3>User/Member Importation (upload file / or direct input)</h3>' . "\n";
-								echo '<p>Import files can be uploaded in CSV format, or you can copy/paste data into the form field provided. In either case, you MUST follow the examples given below. Please double-check your data before clicking the Import button. Make sure that all data fields are properly encapsulated by double-quotes, and separated by commas. You\'ll also need to make sure that all of your data fields are in the proper order, based on the examples given below. After importing Users/Members, you can inspect your work by going to: <code>WordPress® -› Users</code>.</p>' . "\n";
-								echo '<p><em><strong>*No Email Notification*</strong> This import routine works silently. Users/Members will NOT be contacted by s2Member; that is, unless you have another plugin installed that conflicts with s2Member\'s ability to perform the Import properly. You should always test one or two accounts before importing a large number of Users all at once. If you want Users/Members to be contacted, you can add them manually, by going to <code>WordPress® -› Users -› Add New</code>, and selecting one of the s2Member Roles from the drop-down menu.</em></p>' . "\n";
-								echo (version_compare(PHP_VERSION, "5.3", "<")) ? '<p><em><strong>*PHP v5.3+ recommended*</strong> In order for s2Member® to properly import CSV files containing escape sequences, PHP v5.3 or higher is required. While s2Member® may be able to parse import files in most cases, PHP v5.3 provides the best stability.</em></p>' . "\n" : '';
+								echo '<p>Import files can be uploaded in CSV format, or you can copy/paste data into the form field provided. In either case, you MUST follow the examples given below. Please double-check your data before clicking the Import button. Make sure that all data fields are properly encapsulated by double-quotes, and separated by commas. You\'ll also need to make sure that all of your data fields are in the proper order, based on the examples given below. After importing Users/Members, you can inspect your work by going to: <code>WordPress -› Users</code>.</p>' . "\n";
+								echo '<p><em><strong>*No Email Notification*</strong> This import routine works silently. Users/Members will NOT be contacted by s2Member; that is, unless you have another plugin installed that conflicts with s2Member\'s ability to perform the Import properly. You should always test one or two accounts before importing a large number of Users all at once. If you want Users/Members to be contacted, you can add them manually, by going to <code>WordPress -› Users -› Add New</code>, and selecting one of the s2Member Roles from the drop-down menu.</em></p>' . "\n";
+								echo (version_compare(PHP_VERSION, "5.3", "<")) ? '<p><em><strong>*PHP v5.3+ recommended*</strong> In order for s2Member to properly import CSV files containing escape sequences, PHP v5.3 or higher is required. While s2Member may be able to parse import files in most cases, PHP v5.3 provides the best stability.</em></p>' . "\n" : '';
 								echo '<p><em><strong class="ws-menu-page-hilite">*IMPORTANT NOTICE*</strong> s2Member\'s import format changed in s2Member Pro v130203+ (with respect to Custom Registration/Profile Fields only). If you are importing Custom Fields, please review <a href="http://www.s2member.com/kb/importing-updating-users/#custom-registration-profile-fields" target="_blank" rel="external nofollow x-link">this article</a> before you import new Users/Members or mass update any existing Users/Members. <strong>VERY important!</strong></em></p>' . "\n";
 
 								echo '<table class="form-table">' . "\n";
@@ -133,7 +136,7 @@ if (!class_exists ("c_ws_plugin__s2member_pro_menu_page_import_export"))
 								echo '<form method="post" enctype="multipart/form-data" name="ws_plugin__s2member_pro_import_users_form" id="ws-plugin--s2member-pro-import-users-form">' . "\n";
 								echo '<input type="hidden" name="ws_plugin__s2member_pro_import_users" id="ws-plugin--s2member-pro-import-users" value="' . esc_attr (wp_create_nonce ("ws-plugin--s2member-pro-import-users")) . '" />' . "\n";
 
-								echo '<input type="file" name="ws_plugin__s2member_pro_import_users_file" id="ws-plugin--s2member-pro-import-users-file" />&nbsp;&nbsp;&nbsp;(up to 1000 lines per file)&nbsp;&nbsp;&nbsp;<input type="submit" class="button-primary" value="Import Now" /><br /><br />' . "\n";
+								echo '<input type="file" name="ws_plugin__s2member_pro_import_users_file" id="ws-plugin--s2member-pro-import-users-file" />&nbsp;&nbsp;&nbsp;(up to 1000 lines per file)&nbsp;&nbsp;&nbsp;<input type="submit" value="Import Now" style="font-size:120%; font-weight:normal;" /><br /><br />' . "\n";
 								echo '<textarea name="ws_plugin__s2member_pro_import_users_direct_input" id="ws-plugin--s2member-pro-import-users-direct-input" rows="10" wrap="off" spellcheck="false" style="width:99%;">' . format_to_edit (trim (stripslashes ($_POST["ws_plugin__s2member_pro_import_users_direct_input"]))) . '</textarea><br />' . "\n";
 
 								echo 'One User/Member per line please. Here is a quick example:<br />' . "\n";
@@ -222,11 +225,11 @@ if (!class_exists ("c_ws_plugin__s2member_pro_menu_page_import_export"))
 						echo '<td>' . "\n";
 						echo 'You have a total of ' . number_format (c_ws_plugin__s2member_utils_users::users_in_database ()) . ' User/Member rows in the database' . ((is_multisite ()) ? ' for this site' : '') . '.<br />' . "\n";
 						echo 'You can export up to 1000 database rows in each file; starting from a particular row that you specify.<br />' . "\n";
-						echo 'Export, starting with row#: <input type="text" autocomplete="off" name="ws_plugin__s2member_pro_export_users_start" id="ws-plugin--s2member-pro-export-users-start" style="width:100px;" value="1" /> <input type="submit" class="button-primary" value="Export Now" />' . "\n";
+						echo 'Export, starting with row#: <input type="text" autocomplete="off" name="ws_plugin__s2member_pro_export_users_start" id="ws-plugin--s2member-pro-export-users-start" style="width:100px;" value="1" /> <input type="submit" value="Export Now" style="font-size:120%; font-weight:normal;" />' . "\n";
 
 						echo '<div class="ws-menu-page-hr"></div>' . "\n";
 
-						echo '<em>Please note. Export files do NOT contain Passwords. Passwords are stored by WordPress® with one-way encryption. In other words, it\'s not possible for s2Member to include them in the export file. However, this does NOT create a problem, because when/if you re-import existing Users/Members with the Password field empty, s2Member will simply keep the existing Password that is already on file. For further information, please read all Import instructions, regarding Passwords.</em>' . "\n";
+						echo '<em>Please note. Export files do NOT contain Passwords. Passwords are stored by WordPress with one-way encryption. In other words, it\'s not possible for s2Member to include them in the export file. However, this does NOT create a problem, because when/if you re-import existing Users/Members with the Password field empty, s2Member will simply keep the existing Password that is already on file. For further information, please read all Import instructions, regarding Passwords.</em>' . "\n";
 						echo '</td>' . "\n";
 
 						echo '</tr>' . "\n";
@@ -238,17 +241,17 @@ if (!class_exists ("c_ws_plugin__s2member_pro_menu_page_import_export"))
 
 						echo '</div>' . "\n";
 
-						echo '<div class="ws-menu-page-group" title="s2Member® Options (Import/Export)"' . ((isset ($_POST["ws_plugin__s2member_pro_import_ops"])) ? ' default-state="open"' : '') . '>' . "\n";
+						echo '<div class="ws-menu-page-group" title="s2Member Options (Import/Export)"' . ((isset ($_POST["ws_plugin__s2member_pro_import_ops"])) ? ' default-state="open"' : '') . '>' . "\n";
 
 						echo '<div class="ws-menu-page-section ws-plugin--s2member-pro-ops-importation-exportation-section">' . "\n";
 
-						echo '<h3 style="margin-bottom:5px;">s2Member® Options Export <small>(<a href="' . esc_attr (site_url ("/?ws_plugin__s2member_pro_export_ops=" . urlencode (wp_create_nonce ("ws-plugin--s2member-pro-export-ops")))) . '">download serialized export file</a>)</small></h3>' . "\n";
-						echo '<p style="margin-top:5px;">This allows you to export your current s2Member® configuration, and then import it into another instance of WordPress®.' . "\n";
+						echo '<h3 style="margin-bottom:5px;">s2Member Options Export <small>(<a href="' . esc_attr (site_url ("/?ws_plugin__s2member_pro_export_ops=" . urlencode (wp_create_nonce ("ws-plugin--s2member-pro-export-ops")))) . '">download serialized export file</a>)</small></h3>' . "\n";
+						echo '<p style="margin-top:5px;">This allows you to export your current s2Member configuration, and then import it into another instance of WordPress.' . "\n";
 
 						echo '<div class="ws-menu-page-hr"></div>' . "\n";
 
-						echo '<h3 style="margin-bottom:5px;">s2Member® Options Import <small>(upload your serialized export file)</small></h3>' . "\n";
-						echo '<p style="margin-top:5px;">This allows you to import your s2Member® configuration export file, from another instance of WordPress®.' . "\n";
+						echo '<h3 style="margin-bottom:5px;">s2Member Options Import <small>(upload your serialized export file)</small></h3>' . "\n";
+						echo '<p style="margin-top:5px;">This allows you to import your s2Member configuration export file, from another instance of WordPress.' . "\n";
 
 						echo '<table class="form-table">' . "\n";
 						echo '<tbody>' . "\n";
@@ -257,7 +260,7 @@ if (!class_exists ("c_ws_plugin__s2member_pro_menu_page_import_export"))
 						echo '<td>' . "\n";
 						echo '<form method="post" enctype="multipart/form-data" name="ws_plugin__s2member_pro_import_ops_form" id="ws-plugin--s2member-pro-import-ops-form">' . "\n";
 						echo '<input type="hidden" name="ws_plugin__s2member_pro_import_ops" id="ws-plugin--s2member-pro-import-ops" value="' . esc_attr (wp_create_nonce ("ws-plugin--s2member-pro-import-ops")) . '" />' . "\n";
-						echo '<input type="file" name="ws_plugin__s2member_pro_import_ops_file" id="ws-plugin--s2member-pro-import-ops-file" />&nbsp;&nbsp;&nbsp;<input type="submit" class="button-primary" value="Import Now" />' . "\n";
+						echo '<input type="file" name="ws_plugin__s2member_pro_import_ops_file" id="ws-plugin--s2member-pro-import-ops-file" />&nbsp;&nbsp;&nbsp;<input type="submit" value="Import Now" style="font-size:120%; font-weight:normal;" />' . "\n";
 						echo '</form>' . "\n";
 						echo '</td>' . "\n";
 

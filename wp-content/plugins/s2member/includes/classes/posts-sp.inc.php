@@ -47,7 +47,7 @@ if (!class_exists ("c_ws_plugin__s2member_posts_sp"))
 							{
 								$post_uri = c_ws_plugin__s2member_utils_urls::parse_uri (get_permalink ($post_id)); // Get a full valid URI for this Post now.
 
-								if (!c_ws_plugin__s2member_systematics_sp::is_wp_systematic_use_specific_page ($post_id, $post_uri)) // Do NOT touch WordPress® Systematics.
+								if (!c_ws_plugin__s2member_systematics_sp::is_wp_systematic_use_specific_page ($post_id, $post_uri)) // Do NOT touch WordPress Systematics.
 									{
 										$user = (is_user_logged_in () && is_object ($user = wp_get_current_user ()) && !empty ($user->ID)) ? $user : false; // Current User's object.
 
@@ -61,7 +61,7 @@ if (!class_exists ("c_ws_plugin__s2member_posts_sp"))
 														if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"] === "all" && (!$check_user || !$user || !$user->has_cap ("access_s2member_level" . $n)))
 															return apply_filters ("ws_plugin__s2member_check_specific_post_level_access", array ("s2member_level_req" => $n), get_defined_vars ());
 
-														else if (strpos ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"], "all-") !== false && ($post_type = get_post_type ($post_id)) && in_array ("all-" . $post_type . "s", preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"])) && (!$check_user || !$user || !$user->has_cap ("access_s2member_level" . $n)))
+														else if (strpos ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"], "all-") !== false && ($post_type = get_post_type ($post_id)) && (in_array ("all-" . $post_type, preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"])) || in_array ("all-" . $post_type . "s", preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"]))) && (!$check_user || !$user || !$user->has_cap ("access_s2member_level" . $n)))
 															return apply_filters ("ws_plugin__s2member_check_specific_post_level_access", array ("s2member_level_req" => $n), get_defined_vars ());
 
 														else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"] && in_array ($post_id, preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"])) && (!$check_user || !$user || !$user->has_cap ("access_s2member_level" . $n)))

@@ -6,9 +6,9 @@
 * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
 * (coded in the USA)
 *
-* This WordPress® plugin (s2Member Pro) is comprised of two parts:
+* This WordPress plugin (s2Member Pro) is comprised of two parts:
 *
-* o (1) Its PHP code is licensed under the GPL license, as is WordPress®.
+* o (1) Its PHP code is licensed under the GPL license, as is WordPress.
 * 	You should have received a copy of the GNU General Public License,
 * 	along with this software. In the main directory, see: /licensing/
 * 	If not, see: {@link http://www.gnu.org/licenses/}.
@@ -44,12 +44,12 @@ if(!class_exists("c_ws_plugin__s2member_pro_paypal_form_in"))
 		class c_ws_plugin__s2member_pro_paypal_form_in
 			{
 				/**
-				* Shortcode `[s2Member-Pro-PayPal-Form-Option /]`.
+				* Shortcode `[s2Member-Pro-PayPal-xFormOption /]`.
 				*
 				* @package s2Member\PayPal
 				* @since 130728
 				*
-				* @attaches-to ``add_shortcode("s2Member-Pro-PayPal-Form-Option");``
+				* @attaches-to ``add_shortcode("s2Member-Pro-PayPal-xFormOption");``
 				*
 				* @param array $attr An array of Attributes.
 				* @param str $content Content inside the Shortcode.
@@ -58,6 +58,10 @@ if(!class_exists("c_ws_plugin__s2member_pro_paypal_form_in"))
 				*/
 				public static function sc_paypal_form_option($attr = FALSE, $content = FALSE, $shortcode = FALSE)
 					{
+						foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;
+						do_action("ws_plugin__s2member_pro_before_sc_paypal_form", get_defined_vars());
+						unset /* Unset defined __refs, __v. */($__refs, $__v);
+
 						return serialize(c_ws_plugin__s2member_utils_strings::trim_qts_deep((array)$attr)).'|::|';
 					}
 				/**
@@ -86,7 +90,7 @@ if(!class_exists("c_ws_plugin__s2member_pro_paypal_form_in"))
 						$option_selections = ''; // Initialize w/ no options.
 
 						if($content && ($content = strip_tags($content))) // This allows for nested Pro Form Shortcodes as options.
-							$content = str_replace('s2Member-Pro-PayPal-Form ', 's2Member-Pro-PayPal-Form-Option ', $content);
+							$content = str_replace('s2Member-Pro-PayPal-Form ', 's2Member-Pro-PayPal-xFormOption ', $content);
 
 						if($content && ($content_options = do_shortcode($content)))
 							{
@@ -370,7 +374,7 @@ if(!class_exists("c_ws_plugin__s2member_pro_paypal_form_in"))
 								/*
 								Build the list of card type options.
 								*/
-								foreach(array("Visa" => _x("Visa®", "s2member-front", "s2member"), "MasterCard" => _x("MasterCard®", "s2member-front", "s2member"), "Discover" => _x("Discover®", "s2member-front", "s2member"), "Amex" => _x("American Express®", "s2member-front", "s2member"), "Maestro" => _x("Maestro®", "s2member-front", "s2member"), "Solo" => _x("Solo®", "s2member-front", "s2member")) as $card_type_v => $card_type_l)
+								foreach(array("Visa" => _x("Visa", "s2member-front", "s2member"), "MasterCard" => _x("MasterCard", "s2member-front", "s2member"), "Discover" => _x("Discover", "s2member-front", "s2member"), "Amex" => _x("American Express", "s2member-front", "s2member"), "Maestro" => _x("Maestro", "s2member-front", "s2member"), "Solo" => _x("Solo", "s2member-front", "s2member")) as $card_type_v => $card_type_l)
 									$card_type_options .= '<label for="s2member-pro-paypal-update-card-type-'.esc_attr(strtolower($card_type_v)).'" id="s2member-pro-paypal-update-form-card-type-'.esc_attr(strtolower($card_type_v)).'-label" class="s2member-pro-paypal-form-card-type-label s2member-pro-paypal-update-form-card-type-label s2member-pro-paypal-form-card-type-'.esc_attr(strtolower($card_type_v)).'-label s2member-pro-paypal-update-form-card-type-'.esc_attr(strtolower($card_type_v)).'-label'.((!in_array(strtolower($card_type_v), $attr["accept"])) ? ' disabled' : '').'">'."\n".
 									'<input type="radio" aria-required="true" name="s2member_pro_paypal_update[card_type]" id="s2member-pro-paypal-update-card-type-'.esc_attr(strtolower($card_type_v)).'" class="s2member-pro-paypal-card-type-'.esc_attr(strtolower($card_type_v)).' s2member-pro-paypal-update-card-type-'.esc_attr(strtolower($card_type_v)).'" value="'.esc_attr($card_type_v).'"'.((!empty($_p["s2member_pro_paypal_update"]["card_type"]) && in_array(strtolower($_p["s2member_pro_paypal_update"]["card_type"]), $attr["accept"]) && $_p["s2member_pro_paypal_update"]["card_type"] === $card_type_v) ? ' checked="checked"' : '').((!in_array(strtolower($card_type_v), $attr["accept"])) ? ' disabled="disabled"' : '').' tabindex="10" />'."\n".
 										'</label>';
@@ -508,7 +512,7 @@ if(!class_exists("c_ws_plugin__s2member_pro_paypal_form_in"))
 								Build the list of card type options.
 								*/
 								$card_type_options = '<input type="radio" name="s2member_pro_paypal_sp_checkout[card_type]" id="s2member-pro-paypal-sp-checkout-card-type-free" class="s2member-pro-paypal-card-type-free s2member-pro-paypal-sp-checkout-card-type-free" value="Free" tabindex="-1" style="display:none;" />'."\n";
-								foreach(array("PayPal" => _x("PayPal®", "s2member-front", "s2member"), "Visa" => _x("Visa®", "s2member-front", "s2member"), "MasterCard" => _x("MasterCard®", "s2member-front", "s2member"), "Discover" => _x("Discover®", "s2member-front", "s2member"), "Amex" => _x("American Express®", "s2member-front", "s2member"), "Maestro" => _x("Maestro®", "s2member-front", "s2member"), "Solo" => _x("Solo®", "s2member-front", "s2member")) as $card_type_v => $card_type_l)
+								foreach(array("PayPal" => _x("PayPal", "s2member-front", "s2member"), "Visa" => _x("Visa", "s2member-front", "s2member"), "MasterCard" => _x("MasterCard", "s2member-front", "s2member"), "Discover" => _x("Discover", "s2member-front", "s2member"), "Amex" => _x("American Express", "s2member-front", "s2member"), "Maestro" => _x("Maestro", "s2member-front", "s2member"), "Solo" => _x("Solo", "s2member-front", "s2member")) as $card_type_v => $card_type_l)
 									$card_type_options .= '<label for="s2member-pro-paypal-sp-checkout-card-type-'.esc_attr(strtolower($card_type_v)).'" id="s2member-pro-paypal-sp-checkout-form-card-type-'.esc_attr(strtolower($card_type_v)).'-label" class="s2member-pro-paypal-form-card-type-label s2member-pro-paypal-sp-checkout-form-card-type-label s2member-pro-paypal-form-card-type-'.esc_attr(strtolower($card_type_v)).'-label s2member-pro-paypal-sp-checkout-form-card-type-'.esc_attr(strtolower($card_type_v)).'-label'.((!in_array(strtolower($card_type_v), $attr["accept"])) ? ' disabled' : '').'">'."\n".
 									'<input type="radio" aria-required="true" name="s2member_pro_paypal_sp_checkout[card_type]" id="s2member-pro-paypal-sp-checkout-card-type-'.esc_attr(strtolower($card_type_v)).'" class="s2member-pro-paypal-card-type-'.esc_attr(strtolower($card_type_v)).' s2member-pro-paypal-sp-checkout-card-type-'.esc_attr(strtolower($card_type_v)).'" value="'.((in_array(strtolower($card_type_v), $attr["accept_via_paypal"])) ? "PayPal" : esc_attr($card_type_v)).'"'.((!empty($_p["s2member_pro_paypal_sp_checkout"]["card_type"]) && in_array(strtolower($_p["s2member_pro_paypal_sp_checkout"]["card_type"]), $attr["accept"]) && $_p["s2member_pro_paypal_sp_checkout"]["card_type"] === $card_type_v || ($attr["accept"] === array("paypal")&& $card_type_v === "PayPal")) ? ' checked="checked"' : '').((!in_array(strtolower($card_type_v), $attr["accept"])) ? ' disabled="disabled"' : '').' tabindex="100" />'."\n".
 										'</label>';
@@ -598,8 +602,8 @@ if(!class_exists("c_ws_plugin__s2member_pro_paypal_form_in"))
 								$custom_template = ($attr["template"] && file_exists(WP_CONTENT_DIR."/".$attr["template"])) ? WP_CONTENT_DIR."/".$attr["template"] : $custom_template;
 
 								$code = trim(file_get_contents((($custom_template) ? $custom_template : dirname(dirname(dirname(dirname(__FILE__))))."/templates/forms/paypal-sp-checkout-form.php")));
-								$code = ($attr["accept"] === array("paypal")) ? preg_replace("/ s2member-pro-paypal-sp-checkout-form-billing-method-section\"\>/", ' s2member-pro-paypal-sp-checkout-form-billing-method-section" style="display:none;">', $code) : $code;
-								$code = ($attr["accept"] === array("paypal")) ? preg_replace("/Billing Method/", _x("We Accept PayPal®", "s2member-front", "s2member"), $code) : $code;
+								$code = ($attr["accept"] === array("paypal")) ? preg_replace("/ s2member-pro-paypal-sp-checkout-form-billing-method-section\"\>/", ' s2member-pro-paypal-sp-checkout-form-billing-method-section" data-paypal-only="true">', $code) : $code;
+								$code = ($attr["accept"] === array("paypal")) ? preg_replace("/Billing Method/", _x("We Accept PayPal", "s2member-front", "s2member"), $code) : $code;
 								$code = trim(((!$custom_template || !is_multisite() || !c_ws_plugin__s2member_utils_conds::is_multisite_farm() || is_main_site()) ? c_ws_plugin__s2member_utilities::evl($code) : $code));
 								/*
 								Fill in the action.
@@ -684,7 +688,7 @@ if(!class_exists("c_ws_plugin__s2member_pro_paypal_form_in"))
 								Build the list of card type options.
 								*/
 								$card_type_options = '<input type="radio" name="s2member_pro_paypal_checkout[card_type]" id="s2member-pro-paypal-checkout-card-type-free" class="s2member-pro-paypal-card-type-free s2member-pro-paypal-checkout-card-type-free" value="Free" tabindex="-1" style="display:none;" />'."\n";
-								foreach(array("PayPal" => _x("PayPal®", "s2member-front", "s2member"), "Visa" => _x("Visa®", "s2member-front", "s2member"), "MasterCard" => _x("MasterCard®", "s2member-front", "s2member"), "Discover" => _x("Discover®", "s2member-front", "s2member"), "Amex" => _x("American Express®", "s2member-front", "s2member"), "Maestro" => _x("Maestro®", "s2member-front", "s2member"), "Solo" => _x("Solo®", "s2member-front", "s2member")) as $card_type_v => $card_type_l)
+								foreach(array("PayPal" => _x("PayPal", "s2member-front", "s2member"), "Visa" => _x("Visa", "s2member-front", "s2member"), "MasterCard" => _x("MasterCard", "s2member-front", "s2member"), "Discover" => _x("Discover", "s2member-front", "s2member"), "Amex" => _x("American Express", "s2member-front", "s2member"), "Maestro" => _x("Maestro", "s2member-front", "s2member"), "Solo" => _x("Solo", "s2member-front", "s2member")) as $card_type_v => $card_type_l)
 									$card_type_options .= '<label for="s2member-pro-paypal-checkout-card-type-'.esc_attr(strtolower($card_type_v)).'" id="s2member-pro-paypal-checkout-form-card-type-'.esc_attr(strtolower($card_type_v)).'-label" class="s2member-pro-paypal-form-card-type-label s2member-pro-paypal-checkout-form-card-type-label s2member-pro-paypal-form-card-type-'.esc_attr(strtolower($card_type_v)).'-label s2member-pro-paypal-checkout-form-card-type-'.esc_attr(strtolower($card_type_v)).'-label'.((!in_array(strtolower($card_type_v), $attr["accept"])) ? ' disabled' : '').'">'."\n".
 									'<input type="radio" aria-required="true" name="s2member_pro_paypal_checkout[card_type]" id="s2member-pro-paypal-checkout-card-type-'.esc_attr(strtolower($card_type_v)).'" class="s2member-pro-paypal-card-type-'.esc_attr(strtolower($card_type_v)).' s2member-pro-paypal-checkout-card-type-'.esc_attr(strtolower($card_type_v)).'" value="'.((in_array(strtolower($card_type_v), $attr["accept_via_paypal"])) ? "PayPal" : esc_attr($card_type_v)).'"'.((!empty($_p["s2member_pro_paypal_checkout"]["card_type"]) && in_array(strtolower($_p["s2member_pro_paypal_checkout"]["card_type"]), $attr["accept"]) && $_p["s2member_pro_paypal_checkout"]["card_type"] === $card_type_v || ($attr["accept"] === array("paypal")&& $card_type_v === "PayPal")) ? ' checked="checked"' : '').((!in_array(strtolower($card_type_v), $attr["accept"])) ? ' disabled="disabled"' : '').' tabindex="200" />'."\n".
 										'</label>';
@@ -810,8 +814,8 @@ if(!class_exists("c_ws_plugin__s2member_pro_paypal_form_in"))
 								$custom_template = ($attr["template"] && file_exists(WP_CONTENT_DIR."/".$attr["template"])) ? WP_CONTENT_DIR."/".$attr["template"] : $custom_template;
 
 								$code = trim(file_get_contents((($custom_template) ? $custom_template : dirname(dirname(dirname(dirname(__FILE__))))."/templates/forms/paypal-checkout-form.php")));
-								$code = ($attr["accept"] === array("paypal")) ? preg_replace("/ s2member-pro-paypal-checkout-form-billing-method-section\"\>/", ' s2member-pro-paypal-checkout-form-billing-method-section" style="display:none;">', $code) : $code;
-								$code = ($attr["accept"] === array("paypal")) ? preg_replace("/Billing Method/", _x("We Accept PayPal®", "s2member-front", "s2member"), $code) : $code;
+								$code = ($attr["accept"] === array("paypal")) ? preg_replace("/ s2member-pro-paypal-checkout-form-billing-method-section\"\>/", ' s2member-pro-paypal-checkout-form-billing-method-section" data-paypal-only="true">', $code) : $code;
+								$code = ($attr["accept"] === array("paypal")) ? preg_replace("/Billing Method/", _x("We Accept PayPal", "s2member-front", "s2member"), $code) : $code;
 								$code = trim(((!$custom_template || !is_multisite() || !c_ws_plugin__s2member_utils_conds::is_multisite_farm() || is_main_site()) ? c_ws_plugin__s2member_utilities::evl($code) : $code));
 								/*
 								Fill in the action.

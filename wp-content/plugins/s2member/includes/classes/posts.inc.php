@@ -45,7 +45,7 @@ if (!class_exists ("c_ws_plugin__s2member_posts"))
 
 						if (!$excluded && is_single () && is_object ($post) && !empty ($post->ID) && ($post_id = (int)$post->ID) && $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["membership_options_page"])
 							{
-								if (!c_ws_plugin__s2member_systematics::is_wp_systematic_use_page ()) // Do NOT touch WordPress® Systematics. This excludes all WordPress® Systematics.
+								if (!c_ws_plugin__s2member_systematics::is_wp_systematic_use_page ()) // Do NOT touch WordPress Systematics. This excludes all WordPress Systematics.
 									{
 										$user = (is_user_logged_in () && is_object ($user = wp_get_current_user ()) && !empty ($user->ID)) ? $user : false; // Current User's object.
 
@@ -59,7 +59,7 @@ if (!class_exists ("c_ws_plugin__s2member_posts"))
 														if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"] === "all" && c_ws_plugin__s2member_no_cache::no_cache_constants (true) && (!$user || !$user->has_cap ("access_s2member_level" . $n)))
 															c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("post", $post_id, "level", $n, $_SERVER["REQUEST_URI"]) . exit ();
 
-														else if (strpos ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"], "all-") !== false && in_array ("all-" . $post->post_type . "s", preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"])) && c_ws_plugin__s2member_no_cache::no_cache_constants (true) && (!$user || !$user->has_cap ("access_s2member_level" . $n)))
+														else if (strpos ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"], "all-") !== false && (in_array ("all-" . $post->post_type, preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"])) || in_array ("all-" . $post->post_type . "s", preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"]))) && c_ws_plugin__s2member_no_cache::no_cache_constants (true) && (!$user || !$user->has_cap ("access_s2member_level" . $n)))
 															c_ws_plugin__s2member_mo_page::wp_redirect_w_mop_vars /* Configure MOP Vars here. */ ("post", $post_id, "level", $n, $_SERVER["REQUEST_URI"]) . exit ();
 
 														else if ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"] && in_array ($post_id, preg_split ("/[\r\n\t\s;,]+/", $GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $n . "_posts"])) && c_ws_plugin__s2member_no_cache::no_cache_constants (true) && (!$user || !$user->has_cap ("access_s2member_level" . $n)))

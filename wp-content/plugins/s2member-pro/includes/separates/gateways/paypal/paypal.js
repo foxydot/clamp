@@ -36,7 +36,7 @@ jQuery(document).ready (function($)
 		preloadAjaxLoader = new Image (), preloadAjaxLoader.src = '<?php echo $vars["i"]; ?>/ajax-loader.gif';
 
 		if($('form.s2member-pro-paypal-registration-form').length > 1 || $('form.s2member-pro-paypal-checkout-form').length > 1 || $('form.s2member-pro-paypal-sp-checkout-form').length > 1)
-			return alert('Detected more than one s2Member® Pro Form.\n\nPlease use only ONE s2Member® Pro Form Shortcode on each Post/Page. Attempting to serve more than one Pro Form on each Post/Page (even w/ DHTML) may result in unexpected/broken functionality.');
+			return alert('Detected more than one s2Member Pro Form.\n\nPlease use only ONE s2Member Pro Form Shortcode on each Post/Page. Attempting to serve more than one Pro Form on each Post/Page (even w/ DHTML) may result in unexpected/broken functionality.');
 
 		if (($clForm = $('form#s2member-pro-paypal-cancellation-form')).length === 1)
 			{
@@ -285,7 +285,9 @@ jQuery(document).ready (function($)
 								$(optionsSection + ' select#s2member-pro-paypal-sp-checkout-options').change
 									(function() // Handle option changes.
 									 {
-										$(submissionNonceVerification).val ('option'), $coForm.submit ();
+										$(submissionNonceVerification).val ('option');
+										 $spForm.attr('action', $spForm.attr('action').replace(/#.*$/, '')+'#s2p-form');
+										 $spForm.submit ();
 									 });
 							}
 					}) ();
@@ -575,7 +577,9 @@ jQuery(document).ready (function($)
 								$(optionsSection + ' select#s2member-pro-paypal-checkout-options').change
 									(function() // Handle option changes.
 									 {
-										$(submissionNonceVerification).val ('option'), $coForm.submit ();
+										$(submissionNonceVerification).val ('option');
+										 $coForm.attr('action', $coForm.attr('action').replace(/#.*$/, '')+'#s2p-form');
+										 $coForm.submit ();
 									 });
 							}
 					}) ();
@@ -752,7 +756,11 @@ jQuery(document).ready (function($)
 							}
 						else if ((!billingMethod || billingMethod === 'PayPal') && taxMayApply)
 							{
-								$(billingMethodSection).show (), $(billingAddressSection).show ();
+								if($(billingMethodSection).attr('data-paypal-only'))
+									$(billingMethodSection).hide();
+								else $(billingMethodSection).show ();
+
+								$(billingAddressSection).show (); // Need this when tax may apply.
 
 								$(billingMethodSection + ' > div.s2member-pro-paypal-checkout-form-div').show ();
 								$(billingMethodSection + ' > div.s2member-pro-paypal-checkout-form-div :input').attr (ariaTrue);
@@ -784,7 +792,11 @@ jQuery(document).ready (function($)
 							}
 						else if (!billingMethod || billingMethod === 'PayPal')
 							{
-								$(billingMethodSection).show (), $(billingAddressSection).hide ();
+								if($(billingMethodSection).attr('data-paypal-only'))
+									$(billingMethodSection).hide();
+								else $(billingMethodSection).show ();
+
+								$(billingAddressSection).hide (); // Don't need this either.
 
 								$(billingMethodSection + ' > div.s2member-pro-paypal-checkout-form-div').hide ();
 								$(billingMethodSection + ' > div.s2member-pro-paypal-checkout-form-div :input').attr (ariaFalse);

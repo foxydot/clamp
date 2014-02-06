@@ -6,9 +6,9 @@
 * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
 * (coded in the USA)
 *
-* This WordPress® plugin (s2Member Pro) is comprised of two parts:
+* This WordPress plugin (s2Member Pro) is comprised of two parts:
 *
-* o (1) Its PHP code is licensed under the GPL license, as is WordPress®.
+* o (1) Its PHP code is licensed under the GPL license, as is WordPress.
 * 	You should have received a copy of the GNU General Public License,
 * 	along with this software. In the main directory, see: /licensing/
 * 	If not, see: {@link http://www.gnu.org/licenses/}.
@@ -152,7 +152,7 @@ if (!class_exists ("c_ws_plugin__s2member_pro_lock_icons_in"))
 						else if (isset ($array["s2member_sp_req"]))
 							$req = 'Requires Specific Post/Page Access';
 
-						$desc = ($req) ? '<img src="' . esc_attr ($dir_url) . '/images/lock-icon.png" style="cursor:help; width:16px; border:0;" title="' . esc_attr ($req) . '" />' : '<span style="cursor:help;" title="Publicly Available">&mdash;</span>';
+						$desc = (!empty($req)) ? '<img src="' . esc_attr ($dir_url) . '/images/lock-icon.png" style="cursor:help; width:16px; border:0;" title="' . esc_attr ($req) . '" />' : '<span style="cursor:help;" title="Publicly Available">&mdash;</span>';
 
 						return apply_filters ("_ws_plugin__s2member_pro_return_lock_icons_description", $desc, get_defined_vars ());
 					}

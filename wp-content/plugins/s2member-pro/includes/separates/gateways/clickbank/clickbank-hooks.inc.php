@@ -1,14 +1,14 @@
 <?php
 /**
-* Primary Hooks/Filters for ClickBank®.
+* Primary Hooks/Filters for ClickBank.
 *
 * Copyright: © 2009-2011
 * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
 * (coded in the USA)
 *
-* This WordPress® plugin (s2Member Pro) is comprised of two parts:
+* This WordPress plugin (s2Member Pro) is comprised of two parts:
 *
-* o (1) Its PHP code is licensed under the GPL license, as is WordPress®.
+* o (1) Its PHP code is licensed under the GPL license, as is WordPress.
 * 	You should have received a copy of the GNU General Public License,
 * 	along with this software. In the main directory, see: /licensing/
 * 	If not, see: {@link http://www.gnu.org/licenses/}.
@@ -46,7 +46,7 @@ add_action ("ws_plugin__s2member_during_menu_pages_js", "c_ws_plugin__s2member_p
 
 add_filter ("ws_plugin__s2member_return_template_support", "c_ws_plugin__s2member_pro_clickbank_utilities::clickbank_cc_reminder", 10, 2);
 
-add_filter ("ws_plugin__s2member_during_add_admin_options_add_divider_4", "c_ws_plugin__s2member_pro_clickbank_menu_pages::clickbank_admin_options", 10, 2);
+add_filter ("ws_plugin__s2member_during_add_admin_options_add_divider_3", "c_ws_plugin__s2member_pro_clickbank_menu_pages::clickbank_admin_options", 10, 2);
 
 add_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_during_list_of_api_constants", "c_ws_plugin__s2member_pro_clickbank_menu_pages::clickbank_scripting_page_api_constants");
 add_action ("ws_plugin__s2member_during_scripting_page_during_left_sections_during_list_of_api_constants_farm", "c_ws_plugin__s2member_pro_clickbank_menu_pages::clickbank_scripting_page_api_constants");

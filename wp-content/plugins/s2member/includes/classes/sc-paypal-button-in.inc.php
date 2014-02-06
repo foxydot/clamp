@@ -38,7 +38,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 				* @param array $attr An array of Attributes.
 				* @param str $content Content inside the Shortcode.
 				* @param str $shortcode The actual Shortcode name itself.
-				* @return str The resulting PayPal® Button Code.
+				* @return str The resulting PayPal Button Code.
 				*/
 				public static function sc_paypal_button ($attr = FALSE, $content = FALSE, $shortcode = FALSE)
 					{
@@ -59,6 +59,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 						$attr["rt"] = /* Term lengths absolutely must be provided in upper-case format. Only after running shortcode_atts(). */ strtoupper ($attr["rt"]);
 						$attr["rr"] = /* Must be provided in upper-case format. Numerical, or BN value. Only after running shortcode_atts(). */ strtoupper ($attr["rr"]);
 						$attr["ccaps"] = /* Custom Capabilities must be typed in lower-case format. Only after running shortcode_atts(). */ strtolower ($attr["ccaps"]);
+						$attr["ccaps"] = /* Custom Capabilities should not have spaces. */ str_replace(" ", "", $attr["ccaps"]);
 						$attr["rr"] = /* Lifetime Subscriptions require Buy Now. Only after running shortcode_atts(). */ ($attr["rt"] === "L") ? "BN" : $attr["rr"];
 						$attr["rr"] = /* Independent Ccaps require Buy Now. Only after running shortcode_atts(). */ ($attr["level"] === "*") ? "BN" : $attr["rr"];
 						$attr["ns"] = /* No shipping directive must be 1 for digital items. After shortcode_atts(). */ ($attr["dg"] === "1") ? "1" : $attr["ns"];
@@ -77,6 +78,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 
 								$code = preg_replace ("/%%endpoint%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_sandbox"]) ? "www.sandbox.paypal.com" : "www.paypal.com")), $code);
 								$code = preg_replace ("/%%paypal_business%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_business"])), $code);
+								$code = preg_replace ("/%%paypal_merchant_id%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_merchant_id"])), $code);
 
 								$code = $_code = ($attr["image"] && $attr["image"] !== "default") ? preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($attr["image"])) . '"', $code) : preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($default_image)) . '"', $code);
 
@@ -95,7 +97,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 								$default_image = "https://www.paypal.com/" . (($attr["lang"]) ? $attr["lang"] : _x ("en_US", "s2member-front paypal-button-lang-code", "s2member")) . "/i/btn/btn_xpressCheckout.gif";
 
 								$paypal_on0_input_value = ($referencing = c_ws_plugin__s2member_utils_users::get_user_subscr_or_wp_id ()) ? "Referencing Customer ID" : "Originating Domain";
-								$paypal_os0_input_value = /* Current User's Paid Subscr. ID, or WP® User ID, or domain. */ ($referencing) ? $referencing : $_SERVER["HTTP_HOST"];
+								$paypal_os0_input_value = /* Current User's Paid Subscr. ID, or WP User ID, or domain. */ ($referencing) ? $referencing : $_SERVER["HTTP_HOST"];
 
 								$paypal_on1_input_value = /* Identifies the Customer's IP Address for tracking purposes. */ "Customer IP Address";
 								$paypal_os1_input_value = /* Current User's IP Address for tracking purposes. */ $_SERVER["REMOTE_ADDR"];
@@ -113,6 +115,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 
 								$code = preg_replace ("/%%endpoint%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_sandbox"]) ? "www.sandbox.paypal.com" : "www.paypal.com")), $code);
 								$code = preg_replace ("/%%paypal_business%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_business"])), $code);
+								$code = preg_replace ("/%%paypal_merchant_id%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_merchant_id"])), $code);
 								$code = preg_replace ("/%%cancel_return%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (home_url ("/"))), $code);
 								$code = preg_replace ("/%%notify_url%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (site_url ("/?s2member_paypal_notify=1"))), $code);
 								$code = preg_replace ("/%%return%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($success_return_url)), $code);
@@ -137,7 +140,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 
 								$code = $_code = ($attr["image"] && $attr["image"] !== "default") ? preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($attr["image"])) . '"', $code) : preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($default_image)) . '"', $code);
 
-								$code = ($attr["output"] === "anchor") ? '<a href="' . esc_attr (c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code)) . '"><img src="' . esc_attr (($attr["image"] && $attr["image"] !== "default") ? $attr["image"] : $default_image) . '" style="width:auto; height:auto; border:0;" alt="PayPal®" /></a>' : $code;
+								$code = ($attr["output"] === "anchor") ? '<a href="' . esc_attr (c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code)) . '"><img src="' . esc_attr (($attr["image"] && $attr["image"] !== "default") ? $attr["image"] : $default_image) . '" style="width:auto; height:auto; border:0;" alt="PayPal" /></a>' : $code;
 								$code = ($attr["output"] === "url") ? c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code) : $code;
 
 								foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;
@@ -149,7 +152,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 								$default_image = "https://www.paypal.com/" . (($attr["lang"]) ? $attr["lang"] : _x ("en_US", "s2member-front paypal-button-lang-code", "s2member")) . "/i/btn/btn_xpressCheckout.gif";
 
 								$paypal_on0_input_value = ($referencing = c_ws_plugin__s2member_utils_users::get_user_subscr_or_wp_id ()) ? "Referencing Customer ID" : "Originating Domain";
-								$paypal_os0_input_value = /* Current User's Paid Subscr. ID, or WP® User ID, or domain. */ ($referencing) ? $referencing : $_SERVER["HTTP_HOST"];
+								$paypal_os0_input_value = /* Current User's Paid Subscr. ID, or WP User ID, or domain. */ ($referencing) ? $referencing : $_SERVER["HTTP_HOST"];
 
 								$paypal_on1_input_value = /* Identifies the Customer's IP Address for tracking purposes. */ "Customer IP Address";
 								$paypal_os1_input_value = /* Current User's IP Address for tracking purposes. */ $_SERVER["REMOTE_ADDR"];
@@ -168,6 +171,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 
 								$code = preg_replace ("/%%endpoint%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_sandbox"]) ? "www.sandbox.paypal.com" : "www.paypal.com")), $code);
 								$code = preg_replace ("/%%paypal_business%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_business"])), $code);
+								$code = preg_replace ("/%%paypal_merchant_id%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_merchant_id"])), $code);
 								$code = preg_replace ("/%%cancel_return%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (home_url ("/"))), $code);
 								$code = preg_replace ("/%%notify_url%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (site_url ("/?s2member_paypal_notify=1"))), $code);
 								$code = preg_replace ("/%%return%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($success_return_url)), $code);
@@ -192,7 +196,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 
 								$code = $_code = ($attr["image"] && $attr["image"] !== "default") ? preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($attr["image"])) . '"', $code) : preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($default_image)) . '"', $code);
 
-								$code = ($attr["output"] === "anchor") ? '<a href="' . esc_attr (c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code)) . '"><img src="' . esc_attr (($attr["image"] && $attr["image"] !== "default") ? $attr["image"] : $default_image) . '" style="width:auto; height:auto; border:0;" alt="PayPal®" /></a>' : $code;
+								$code = ($attr["output"] === "anchor") ? '<a href="' . esc_attr (c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code)) . '"><img src="' . esc_attr (($attr["image"] && $attr["image"] !== "default") ? $attr["image"] : $default_image) . '" style="width:auto; height:auto; border:0;" alt="PayPal" /></a>' : $code;
 								$code = ($attr["output"] === "url") ? c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code) : $code;
 
 								foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;
@@ -204,7 +208,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 								$default_image = "https://www.paypal.com/" . (($attr["lang"]) ? $attr["lang"] : _x ("en_US", "s2member-front paypal-button-lang-code", "s2member")) . "/i/btn/btn_xpressCheckout.gif";
 
 								$paypal_on0_input_value = ($referencing = c_ws_plugin__s2member_utils_users::get_user_subscr_or_wp_id ()) ? "Referencing Customer ID" : "Originating Domain";
-								$paypal_os0_input_value = /* Current User's Paid Subscr. ID, or WP® User ID, or domain. */ ($referencing) ? $referencing : $_SERVER["HTTP_HOST"];
+								$paypal_os0_input_value = /* Current User's Paid Subscr. ID, or WP User ID, or domain. */ ($referencing) ? $referencing : $_SERVER["HTTP_HOST"];
 
 								$paypal_on1_input_value = /* Identifies the Customer's IP Address for tracking purposes. */ "Customer IP Address";
 								$paypal_os1_input_value = /* Current User's IP Address for tracking purposes. */ $_SERVER["REMOTE_ADDR"];
@@ -228,6 +232,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 
 								$code = preg_replace ("/%%endpoint%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_sandbox"]) ? "www.sandbox.paypal.com" : "www.paypal.com")), $code);
 								$code = preg_replace ("/%%paypal_business%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_business"])), $code);
+								$code = preg_replace ("/%%paypal_merchant_id%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["paypal_merchant_id"])), $code);
 								$code = preg_replace ("/%%level_label%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["level" . $attr["level"] . "_label"])), $code);
 								$code = preg_replace ("/%%cancel_return%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (home_url ("/"))), $code); // This brings them back to Front Page.
 								$code = preg_replace ("/%%notify_url%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (site_url ("/?s2member_paypal_notify=1"))), $code);
@@ -274,7 +279,7 @@ if (!class_exists ("c_ws_plugin__s2member_sc_paypal_button_in"))
 
 								$code = $_code = ($attr["image"] && $attr["image"] !== "default") ? preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($attr["image"])) . '"', $code) : preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($default_image)) . '"', $code);
 
-								$code = ($attr["output"] === "anchor") ? '<a href="' . esc_attr (c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code)) . '"><img src="' . esc_attr (($attr["image"] && $attr["image"] !== "default") ? $attr["image"] : $default_image) . '" style="width:auto; height:auto; border:0;" alt="PayPal®" /></a>' : $code;
+								$code = ($attr["output"] === "anchor") ? '<a href="' . esc_attr (c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code)) . '"><img src="' . esc_attr (($attr["image"] && $attr["image"] !== "default") ? $attr["image"] : $default_image) . '" style="width:auto; height:auto; border:0;" alt="PayPal" /></a>' : $code;
 								$code = ($attr["output"] === "url") ? c_ws_plugin__s2member_utils_forms::form_whips_2_url ($code) : $code;
 
 								foreach(array_keys(get_defined_vars())as$__v)$__refs[$__v]=&$$__v;

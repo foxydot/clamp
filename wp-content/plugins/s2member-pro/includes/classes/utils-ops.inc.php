@@ -6,9 +6,9 @@
 * {@link http://www.websharks-inc.com/ WebSharks, Inc.}
 * (coded in the USA)
 *
-* This WordPress® plugin (s2Member Pro) is comprised of two parts:
+* This WordPress plugin (s2Member Pro) is comprised of two parts:
 *
-* o (1) Its PHP code is licensed under the GPL license, as is WordPress®.
+* o (1) Its PHP code is licensed under the GPL license, as is WordPress.
 * 	You should have received a copy of the GNU General Public License,
 * 	along with this software. In the main directory, see: /licensing/
 * 	If not, see: {@link http://www.gnu.org/licenses/}.
@@ -75,7 +75,7 @@ if (!class_exists ("c_ws_plugin__s2member_pro_utils_ops"))
 												$op = preg_replace ("/" . preg_quote (rtrim (site_url (), "/"), "/") . "/", "%%_op__site_url%%", preg_replace ("/" . preg_quote (rtrim (site_url (), "/") . "/", "/") . "/", "%%_op__site_url/%%", $op));
 												$op = preg_replace ("/" . preg_quote (rtrim (home_url (), "/"), "/") . "/", "%%_op__home_url%%", preg_replace ("/" . preg_quote (rtrim (home_url (), "/") . "/", "/") . "/", "%%_op__home_url/%%", $op));
 
-												$op = preg_replace ("/" . preg_quote ($_SERVER["HTTP_HOST"], "/") . "/i", "%%_op__domain%%", preg_replace ("/" . preg_quote (get_bloginfo ("name"), "/") . "/", "%%_op__blog_name%%", $op));
+												$op = preg_replace ("/" . preg_quote ($_SERVER["HTTP_HOST"], "/") . "/i", "%%_op__domain%%", ((get_bloginfo ("name")) ? preg_replace ("/" . preg_quote (get_bloginfo ("name"), "/") . "/", "%%_op__blog_name%%", $op) : $op));
 											}
 										else if (is_string ($op) && $fill) // Handle Replacement Codes.
 											{
