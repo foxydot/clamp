@@ -147,7 +147,7 @@ if ( !function_exists('msdlab_has_shortcode') ) {
 add_action('login_enqueue_scripts','msdlab_style_login');
 function msdlab_style_login(){
     print '<style>
-        body.login {
+        .login .entry {
             background-color: #000;
         }
     </style>';
