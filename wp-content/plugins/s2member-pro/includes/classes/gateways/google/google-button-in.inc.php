@@ -54,23 +54,14 @@ if (!class_exists ("c_ws_plugin__s2member_pro_google_button_in"))
 				* @param array $attr An array of Attributes.
 				* @param str $content Content inside the Shortcode.
 				* @param str $shortcode The actual Shortcode name itself.
-				* @return str The resulting Google Button Code, HTML markup.
+				* @return str The resulting Google Button Code; HTML markup.
 				*/
 				public static function sc_google_button ($attr = FALSE, $content = FALSE, $shortcode = FALSE)
 					{
-						c_ws_plugin__s2member_no_cache::no_cache_constants /* No caching on pages that contain this Payment Button. */ (true);
+						c_ws_plugin__s2member_no_cache::no_cache_constants(true);
 
-						$attr = /* Force array. Trim quote entities. */ c_ws_plugin__s2member_utils_strings::trim_qts_deep ((array)$attr);
-
-						$attr = shortcode_atts (array ("ids" => "0", "exp" => "72", "level" => "1", "ccaps" => "", "desc" => "", "lang" => "", "cc" => "USD", "custom" => $_SERVER["HTTP_HOST"], "ta" => "0", "tp" => "0", "tt" => "D", "ra" => "0.01", "rp" => "1", "rt" => "M", "rr" => "1", "rrt" => "", "modify" => "0", "cancel" => "0", "sp" => "0", "image" => "default", "output" => "anchor"), $attr);
-
-						$attr["tt"] = /* Term lengths absolutely must be provided in upper-case format. Only after running shortcode_atts(). */ strtoupper ($attr["tt"]);
-						$attr["rt"] = /* Term lengths absolutely must be provided in upper-case format. Only after running shortcode_atts(). */ strtoupper ($attr["rt"]);
-						$attr["rr"] = /* Must be provided in upper-case format. Numerical, or BN value. Only after running shortcode_atts(). */ strtoupper ($attr["rr"]);
-						$attr["ccaps"] = /* Custom Capabilities must be typed in lower-case format. Only after running shortcode_atts(). */ strtolower ($attr["ccaps"]);
-						$attr["rr"] = /* Lifetime Subscriptions require Buy Now. Only after running shortcode_atts(). */ ($attr["rt"] === "L") ? "BN" : $attr["rr"];
-						$attr["rr"] = /* Independent Ccaps do NOT recur. Only after running shortcode_atts(). */ ($attr["level"] === "*") ? "BN" : $attr["rr"];
-						$attr["rr"] = /* No Trial / non-recurring. Only after running shortcode_atts(). */ (!$attr["tp"] && !$attr["rr"]) ? "BN" : $attr["rr"];
+						$attr = c_ws_plugin__s2member_utils_strings::trim_qts_deep ((array)$attr); $jwt_attr = c_ws_plugin__s2member_utils_encryption::encrypt(serialize($attr));
+						$attr = shortcode_atts(array ("ids" => "0", "exp" => "72", "level" => "1", "ccaps" => "", "desc" => "", "cc" => "USD", "custom" => $_SERVER["HTTP_HOST"], "ta" => "0", "tp" => "0", "tt" => "D", "ra" => "0.01", "rp" => "1", "rt" => "M", "rr" => "1", "rrt" => "", "modify" => "0", "cancel" => "0", "sp" => "0", "image" => "default", "output" => "anchor", "success" => "", "failure" => ""), $attr);
 
 						if /* Modifications/Cancellations. */ ($attr["modify"] || $attr["cancel"])
 							{
@@ -80,7 +71,9 @@ if (!class_exists ("c_ws_plugin__s2member_pro_google_button_in"))
 								$code = preg_replace ("/%%images%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member_pro"]["c"]["dir_url"] . "/images")), $code);
 								$code = preg_replace ("/%%wpurl%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (site_url ())), $code);
 
-								$code = $_code = ($attr["image"] && $attr["image"] !== "default") ? preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($attr["image"])) . '"', $code) : preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($default_image)) . '"', $code);
+								$code = $_code = ($attr["image"] && $attr["image"] !== "default")
+									? preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($attr["image"])) . '"', $code)
+									: preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($default_image)) . '"', $code);
 
 								$code = ($attr["output"] === "anchor") ? /* Buttons already in anchor format. */ $code : $code;
 								if ($attr["output"] === "url" && preg_match ('/ href\="(.*?)"/', $code, $m) && ($href = $m[1]))
@@ -90,72 +83,50 @@ if (!class_exists ("c_ws_plugin__s2member_pro_google_button_in"))
 							}
 						else if /* Specific Post/Page Buttons. */ ($attr["sp"])
 							{
-								$default_image = "https://checkout.google.com/buttons/checkout.gif?merchant_id=" . urlencode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["pro_google_merchant_id"]) . "&amp;w=180&amp;h=46&amp;style=trans&amp;variant=text&amp;loc=" . urlencode ((($attr["lang"]) ? $attr["lang"] : _x ("en_US", "s2member-front google-button-lang-code", "s2member")));
+								$default_image = $GLOBALS["WS_PLUGIN__"]["s2member_pro"]["c"]["dir_url"] . "/images/google-wallet-co.png";
 
 								$code = trim (c_ws_plugin__s2member_utilities::evl (file_get_contents (dirname (dirname (dirname (dirname (__FILE__)))) . "/templates/buttons/google-sp-checkout-button.php")));
 								$code = preg_replace ("/%%images%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member_pro"]["c"]["dir_url"] . "/images")), $code);
 								$code = preg_replace ("/%%wpurl%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (site_url ())), $code);
 
-								foreach /* Google Buttons are simply a reflection of these attributes. */ ($attr as $key => $val)
-									$code = preg_replace ("/%%" . preg_quote ($key, "/") . "%%/", c_ws_plugin__s2member_utils_strings::esc_ds (urlencode ($val)), $code);
+								$code = preg_replace ("/%%jwt_attr%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($jwt_attr)), $code);
+								$code = preg_replace (array("/%%success%%/", "/%%failure%%/"), array($attr["success"], $attr["failure"]), $code);
 
-								if (preg_match ('/ href\="(.*?)"/', $code, $m) && ($url = c_ws_plugin__s2member_utils_urls::n_amps ($m[1])))
-									$code = preg_replace ('/ href\=".*?"/', ' href="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (c_ws_plugin__s2member_utils_urls::add_s2member_sig ($url))) . '"', $code);
-
-								$code = $_code = ($attr["image"] && $attr["image"] !== "default") ? preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($attr["image"])) . '"', $code) : preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($default_image)) . '"', $code);
-
-								$code = ($attr["output"] === "anchor") ? /* Buttons already anchor format. */ $code : $code;
-								if ($attr["output"] === "url" && preg_match ('/ href\="(.*?)"/', $code, $m) && ($href = $m[1]))
-									$code = ($url = c_ws_plugin__s2member_utils_urls::n_amps ($href));
-
-								unset /* Just a little housekeeping */ ($href, $url, $m);
+								$code = $_code = ($attr["image"] && $attr["image"] !== "default")
+									? preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($attr["image"])) . '"', $code)
+									: preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($default_image)) . '"', $code);
 							}
 						else if /* Independent Custom Capabilities. */ ($attr["level"] === "*")
 							{
-								$default_image = "https://checkout.google.com/buttons/checkout.gif?merchant_id=" . urlencode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["pro_google_merchant_id"]) . "&amp;w=180&amp;h=46&amp;style=trans&amp;variant=text&amp;loc=" . urlencode ((($attr["lang"]) ? $attr["lang"] : _x ("en_US", "s2member-front google-button-lang-code", "s2member")));
+								$default_image = $GLOBALS["WS_PLUGIN__"]["s2member_pro"]["c"]["dir_url"] . "/images/google-wallet-co.png";
 
 								$code = trim (c_ws_plugin__s2member_utilities::evl (file_get_contents (dirname (dirname (dirname (dirname (__FILE__)))) . "/templates/buttons/google-ccaps-checkout-button.php")));
 								$code = preg_replace ("/%%images%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member_pro"]["c"]["dir_url"] . "/images")), $code);
 								$code = preg_replace ("/%%wpurl%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (site_url ())), $code);
 
-								foreach /* Google Buttons are simply a reflection of these attributes. */ ($attr as $key => $val)
-									$code = preg_replace ("/%%" . preg_quote ($key, "/") . "%%/", c_ws_plugin__s2member_utils_strings::esc_ds (urlencode ($val)), $code);
+								$code = preg_replace ("/%%jwt_attr%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($jwt_attr)), $code);
+								$code = preg_replace (array("/%%success%%/", "/%%failure%%/"), array($attr["success"], $attr["failure"]), $code);
 
-								if (preg_match ('/ href\="(.*?)"/', $code, $m) && ($url = c_ws_plugin__s2member_utils_urls::n_amps ($m[1])))
-									$code = preg_replace ('/ href\=".*?"/', ' href="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (c_ws_plugin__s2member_utils_urls::add_s2member_sig ($url))) . '"', $code);
-
-								$code = $_code = ($attr["image"] && $attr["image"] !== "default") ? preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($attr["image"])) . '"', $code) : preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($default_image)) . '"', $code);
-
-								$code = ($attr["output"] === "anchor") ? /* Buttons already anchor format. */ $code : $code;
-								if ($attr["output"] === "url" && preg_match ('/ href\="(.*?)"/', $code, $m) && ($href = $m[1]))
-									$code = ($url = c_ws_plugin__s2member_utils_urls::n_amps ($href));
-
-								unset /* Just a little housekeeping */ ($href, $url, $m);
+								$code = $_code = ($attr["image"] && $attr["image"] !== "default")
+									? preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($attr["image"])) . '"', $code)
+									: preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($default_image)) . '"', $code);
 							}
-						else // Otherwise, we'll process this Button normally, using Membership routines.
+						else // Otherwise, we'll process this Button normally; nothing special in this case.
 							{
-								$default_image = "https://checkout.google.com/buttons/checkout.gif?merchant_id=" . urlencode ($GLOBALS["WS_PLUGIN__"]["s2member"]["o"]["pro_google_merchant_id"]) . "&amp;w=180&amp;h=46&amp;style=trans&amp;variant=text&amp;loc=" . urlencode ((($attr["lang"]) ? $attr["lang"] : _x ("en_US", "s2member-front google-button-lang-code", "s2member")));
+								$default_image = $GLOBALS["WS_PLUGIN__"]["s2member_pro"]["c"]["dir_url"] . "/images/google-wallet-co.png";
 
 								$code = trim (c_ws_plugin__s2member_utilities::evl (file_get_contents (dirname (dirname (dirname (dirname (__FILE__)))) . "/templates/buttons/google-checkout-button.php")));
 								$code = preg_replace ("/%%images%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($GLOBALS["WS_PLUGIN__"]["s2member_pro"]["c"]["dir_url"] . "/images")), $code);
 								$code = preg_replace ("/%%wpurl%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (site_url ())), $code);
 
-								foreach /* Google Buttons are simply a reflection of these attributes. */ ($attr as $key => $val)
-									$code = preg_replace ("/%%" . preg_quote ($key, "/") . "%%/", c_ws_plugin__s2member_utils_strings::esc_ds (urlencode ($val)), $code);
+								$code = preg_replace ("/%%jwt_attr%%/", c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($jwt_attr)), $code);
+								$code = preg_replace (array("/%%success%%/", "/%%failure%%/"), array($attr["success"], $attr["failure"]), $code);
 
-								if (preg_match ('/ href\="(.*?)"/', $code, $m) && ($url = c_ws_plugin__s2member_utils_urls::n_amps ($m[1])))
-									$code = preg_replace ('/ href\=".*?"/', ' href="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr (c_ws_plugin__s2member_utils_urls::add_s2member_sig ($url))) . '"', $code);
-
-								$code = $_code = ($attr["image"] && $attr["image"] !== "default") ? preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($attr["image"])) . '"', $code) : preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($default_image)) . '"', $code);
-
-								$code = ($attr["output"] === "anchor") ? /* Buttons already anchor format. */ $code : $code;
-								if ($attr["output"] === "url" && preg_match ('/ href\="(.*?)"/', $code, $m) && ($href = $m[1]))
-									$code = ($url = c_ws_plugin__s2member_utils_urls::n_amps ($href));
-
-								unset /* Just a little housekeeping */ ($href, $url, $m);
+								$code = $_code = ($attr["image"] && $attr["image"] !== "default")
+									? preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($attr["image"])) . '"', $code)
+									: preg_replace ('/ src\="(.*?)"/', ' src="' . c_ws_plugin__s2member_utils_strings::esc_ds (esc_attr ($default_image)) . '"', $code);
 							}
-
-						return /* Button. */ $code;
+						return $code;
 					}
 			}
 	}
