@@ -176,14 +176,10 @@ do_action( 'password_protected_login_head' );
     <?php do_action( 'password_protected_before_login_form' ); ?>
 
     <form name="loginform" id="loginform" action="<?php echo esc_url( home_url( '/' ) ); ?>" method="post">
-        <p>
-            <input type="password" name="password_protected_pwd" id="password_protected_pass" class="input" value="" size="20" tabindex="20" placeholder="password" />
-        </p>
-        <!--
-        <p class="forgetmenot"><label for="rememberme"><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90"<?php checked( ! empty( $_POST['rememberme'] ) ); ?> /> <?php esc_attr_e( 'Remember Me', 'password-protected' ); ?></label></p>
-        -->
-        <p class="submit">
-            <input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Log In', 'password-protected' ); ?>" tabindex="100" />
+        <p style="width: 50%;margin:0 auto;">
+            <input type="password" name="password_protected_pwd" id="password_protected_pass" class="input" value="" size="20" tabindex="20" placeholder="password" style="width: 76%;margin-right: 3%;float: left;" />
+        
+            <input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Log In', 'password-protected' ); ?>" tabindex="100"  style="width: 20%;float: left;" />
             <input type="hidden" name="testcookie" value="1" />
             <input type="hidden" name="password-protected" value="login" />
             <input type="hidden" name="redirect_to" value="<?php echo esc_attr( $_REQUEST['redirect_to'] ); ?>" />
