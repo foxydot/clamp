@@ -144,6 +144,15 @@ if ( !function_exists('msdlab_has_shortcode') ) {
     }
 }
 
+add_action('login_enqueue_scripts','msdlab_style_login');
+function msdlab_style_login(){
+    print '<style>
+        body.login {
+            background-color: #000;
+        }
+    </style>';
+}
+
 /**
  * Check if a post is a particular post type.
  */
