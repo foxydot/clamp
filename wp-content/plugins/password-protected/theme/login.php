@@ -141,8 +141,8 @@ do_action( 'password_protected_login_head' );
                 <main class="content" role="main" itemprop="mainContentOfPage">
                     <article class="post-1 page type-page status-publish entry" itemscope="itemscope" itemtype="http://schema.org/CreativeWork">
                         <div class="entry-content" itemprop="text">
+                               <h1 style="color:#FFF;text-align: center"><?php bloginfo( 'name' ); ?></h1>
                            <p style="text-align: center">
-                               <h1 style="color:#FFF;"><?php bloginfo( 'name' ); ?></h1>
                             <img class="aligncenter size-medium wp-image-10" alt="BFC Crest" src="http://bfcclancamp.org/wp-content/uploads/2013/09/1080778_10102766291950570_1869789021_n-300x300.jpg" width="300" height="300" />
                            </p>
 
