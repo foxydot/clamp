@@ -112,7 +112,7 @@ bb2_addLoadEvent(function() {
         <link rel="Shortcut Icon" href="http://bfcclancamp.org/wp-content/themes/genesis/images/favicon.ico" type="image/x-icon" />
 <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <style type="text/css" id="custom-background-css">
-body.custom-background { background-image: url('http://bfcclancamp.org/wp-content/uploads/2014/02/Forest-puddles.jpg'); background-repeat: repeat; background-position: top left; background-attachment: fixed; }
+body.custom-background { background-color: #000000; background-image: url('http://bfcclancamp.org/wp-content/uploads/2014/03/foggy_forest_2_2592.jpg'); background-repeat: no-repeat; background-position: top center; background-attachment: fixed; }
 </style>
 <?php
 if ( $is_iphone ) {
@@ -143,8 +143,7 @@ do_action( 'password_protected_login_head' );
                         <div class="entry-content" itemprop="text">
                                <h1 style="color:#FFF;text-align: center"><?php bloginfo( 'name' ); ?></h1>
                            <p style="text-align: center">
-                            <img class="aligncenter size-medium wp-image-10" alt="BFC Crest" src="http://bfcclancamp.org/wp-content/uploads/2013/09/1080778_10102766291950570_1869789021_n-300x300.jpg" width="300" height="300" />
-                           </p>
+<img width="300" height="291" src="http://bfcclancamp.org/wp-content/uploads/2014/03/Black-Forest-Clan-Design-Layout-with-all-layers-copy1-300x291.jpg" alt="Black Forest Clan Design Layout with all layers copy" class="size-medium wp-image-115 aligncenter">                           </p>
 
 <p style="text-align: center"><div>
         <div id="login">
