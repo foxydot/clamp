@@ -143,7 +143,7 @@ do_action( 'password_protected_login_head' );
                         <div class="entry-content" itemprop="text">
                                <h1 style="color:#FFF;text-align: center"><?php bloginfo( 'name' ); ?></h1>
                            <p style="text-align: center">
-<img width="300" height="291" src="http://bfcclancamp.org/wp-content/uploads/2014/03/Black-Forest-Clan-Design-Layout-with-all-layers-copy1-300x291.jpg" alt="Black Forest Clan Design Layout with all layers copy" class="size-medium wp-image-115 aligncenter">                           </p>
+<img src="http://bfcclancamp.org/wp-content/uploads/2014/03/Black-Forest-Clan-Design-Layout-with-all-layers-copy1.jpg" alt="Black Forest Clan Design Layout with all layers copy" class="size-medium wp-image-115 aligncenter" style="width: 500px;">                           </p>
 
 <p style="text-align: center"><div>
         <div id="login">
