@@ -51,6 +51,10 @@ class Password_Protected {
 	 */
 	function Password_Protected() {
 		$this->errors = new WP_Error();
+        //coming from paypal
+        if( $_SERVER['QUERY_STRING'] == 'page=gf_paypal_ipn')
+            return;
+        
 		register_activation_hook( __FILE__, array( &$this, 'install' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 		add_action( 'init', array( $this, 'maybe_process_login' ), 1 );
@@ -211,10 +215,6 @@ class Password_Protected {
 		// Logged in
 		if ( $this->validate_auth_cookie() )
 			return;
-        
-        //coming from paypal
-        if( $_SERVER['QUERY_STRING'] == 'page=gf_paypal_ipn')
-            return;
 
 		// Show login form
 		if ( isset( $_REQUEST['password-protected'] ) && 'login' == $_REQUEST['password-protected'] ) {
