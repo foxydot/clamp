@@ -211,6 +211,10 @@ class Password_Protected {
 		// Logged in
 		if ( $this->validate_auth_cookie() )
 			return;
+        
+        //coming from paypal
+        if( $_SERVER['QUERY_STRING'] == 'page=gf_paypal_ipn')
+            return;
 
 		// Show login form
 		if ( isset( $_REQUEST['password-protected'] ) && 'login' == $_REQUEST['password-protected'] ) {
