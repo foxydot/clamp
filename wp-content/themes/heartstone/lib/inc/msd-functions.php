@@ -89,6 +89,14 @@ function get_topmost_parent($post_id){
 add_filter( 'the_content', 'msd_remove_msword_formatting' );
 function msd_remove_msword_formatting($content){
 	global $allowedposttags;
+    $allowedposttags["input"] = array(
+            "name" => array(),
+            "id" => array(),
+            "type" => array(),
+            "size" => array(),
+            "style" => array(),
+            "class" => array(),
+    );
 	$allowedposttags['span']['style'] = false;
 	$content = wp_kses($content,$allowedposttags);
 	return $content;

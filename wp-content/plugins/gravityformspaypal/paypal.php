@@ -2220,7 +2220,6 @@ class GFPayPal {
                     case "completed" :
                         self::log_debug("Processing a completed payment");
                         if($entry["payment_status"] != "Approved"){
-
                             if(self::is_valid_initial_payment_amount($config, $entry)){
                                 self::log_debug("Entry is not already approved. Proceeding...");
                                 $entry["payment_status"] = "Approved";
@@ -2542,7 +2541,6 @@ class GFPayPal {
         $form = RGFormsModel::get_form_meta($lead["form_id"]);
         $products = GFCommon::get_product_fields($form, $lead, true);
         $payment_amount = rgpost("mc_gross");
-
         $product_amount = 0;
         switch($config["meta"]["type"]){
             case "product" :
